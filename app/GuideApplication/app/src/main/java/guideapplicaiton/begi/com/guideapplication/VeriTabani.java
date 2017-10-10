@@ -36,13 +36,11 @@ public class VeriTabani {
         veritabanim = veritabanihelper.getWritableDatabase();
 
         return this;
-
     }
 
     public void baglantiyiKapat() {
 
         veritabanihelper.close();
-
     }
 
     private static class VeritabaniHelper extends SQLiteOpenHelper {
@@ -68,7 +66,7 @@ public class VeriTabani {
         }
     }
 
-    public long isimYasBilgisiniKaydet(String ad, String telefon) {
+    public long isimTelBilgisiniKaydet(String ad, String telefon) {
         // TODO Auto-generated method stub
         ContentValues cv = new ContentValues();
 
@@ -76,8 +74,8 @@ public class VeriTabani {
         cv.put(KEY_TELEFON, telefon);
 
         return veritabanim.insert(DATABASE_TABLO, null, cv);
-
     }
+
     public String tumKayitlar() {
         // TODO Auto-generated method stub
 
@@ -88,24 +86,23 @@ public class VeriTabani {
         String tumKayitlar = "";
 
 //sütunların id'leri değişkenlere atandı
-//id sütunu 0, isim sütunu 1 ve yas sütünu 2 indexlerine sahip
+//id sütunu 0, isim sütunu 1 ve telefon sütünu 2 indexlerine sahip
         int idSiraNo = c.getColumnIndex(KEY_ROW_ID);
         int isimSiraNo = c.getColumnIndex(KEY_ISIM);
-        int yasSiraNo = c.getColumnIndex(KEY_TELEFON);
+        int telSiraNo = c.getColumnIndex(KEY_TELEFON);
 
 //tüm kayıtların okunması bu for döngüsüyle sağlandı
         for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
 
             tumKayitlar = tumKayitlar + c.getString(idSiraNo) + "    "
-                    + c.getString(isimSiraNo) + "  " + c.getString(yasSiraNo)
+                    + c.getString(isimSiraNo) + "  " + c.getString(telSiraNo)
                     + " \n";
         }
-
         return tumKayitlar;
     }
+
     public String getName(long aranacakID) {
         // TODO Auto-generated method stub
-
         String[] sutunlar = new String[] { KEY_ROW_ID, KEY_ISIM, KEY_TELEFON };
         Cursor c = veritabanim.query(DATABASE_TABLO, sutunlar, KEY_ROW_ID + "="
                 + aranacakID, null, null, null, null);
@@ -115,11 +112,10 @@ public class VeriTabani {
             String isim = c.getString(1);
             return isim;
         }
-
         return null;
     }
 
-    public String getYas(long aranacakID) {
+    public String getTel(long aranacakID) {
         // TODO Auto-generated method stub
         String[] sutunlar = new String[] { KEY_ROW_ID, KEY_ISIM, KEY_TELEFON };
         Cursor c = veritabanim.query(DATABASE_TABLO, sutunlar, KEY_ROW_ID + "="
@@ -127,23 +123,23 @@ public class VeriTabani {
 
         if (c != null) {
             c.moveToFirst();
-            String yas = c.getString(2);
-            return yas;
+            String tel = c.getString(2);
+            return tel;
         }
-
         return null;
     }
-    public void kaydiGuncelle(long guncellenecekID, String adGuncelle,
-                              String yasGuncelle) {
+
+    public void kaydiGuncelle(long guncellenecekID, String adGuncelle, String telGuncelle) {
         // TODO Auto-generated method stub
         ContentValues cvGuncelle = new ContentValues();
+
         cvGuncelle.put(KEY_ISIM, adGuncelle);
-        cvGuncelle.put(KEY_TELEFON, yasGuncelle);
+        cvGuncelle.put(KEY_TELEFON, telGuncelle);
 
         veritabanim.update(DATABASE_TABLO, cvGuncelle, KEY_ROW_ID + "="
                 + guncellenecekID, null);
-
     }
+
     public void kaydiSil(long silinecekID) {
         // TODO Auto-generated method stub
         veritabanim .delete(DATABASE_TABLO, KEY_ROW_ID + "=" + silinecekID, null);

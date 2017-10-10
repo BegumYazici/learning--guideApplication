@@ -32,6 +32,8 @@
         android:id="@+id/tvTumKayitlar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="DBden gelecek degerler" />
+        android:text="DBden gelecek degerler"
+        android:layout_marginTop="10dp"
+        android:textSize="18dp"/>
 
 </LinearLayout>

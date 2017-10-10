@@ -18,8 +18,8 @@ public class TumKayitlar extends Activity {
         setContentView(R.layout.person);
 
         TextView tv=(TextView)findViewById(R.id.tvTumKayitlar);
-
         VeriTabani db=new VeriTabani(TumKayitlar.this);
+
         try {
             db.baglantiyiAc();
         } catch (SQLException e) {
@@ -29,11 +29,6 @@ public class TumKayitlar extends Activity {
 
         db.baglantiyiKapat();
 
-
-
-
         tv.setText(tumKayitlar);
-
-
     }
 }

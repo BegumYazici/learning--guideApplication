@@ -3,7 +3,6 @@ package guideapplicaiton.begi.com.guideapplication;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -21,15 +20,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        eIsim= (EditText) findViewById(R.id.eIsim);
-        eTelefon= (EditText) findViewById(R.id.eTelefon);
-        eGetir= (EditText) findViewById(R.id.eGetir);
+        eIsim = (EditText) findViewById(R.id.eIsim);
+        eTelefon = (EditText) findViewById(R.id.eTelefon);
+        eGetir = (EditText) findViewById(R.id.eGetir);
         //Button Kısmı
-        bEkle= (Button) findViewById(R.id.bEkle);
-        bGuncelle= (Button) findViewById(R.id.bGuncelle);
-        bSil= (Button) findViewById(R.id.bSil);
-        bGetir= (Button) findViewById(R.id.bGetir);
-        bKisiGetir= (Button) findViewById(R.id.bKisiGetir);
+        bEkle = (Button) findViewById(R.id.bEkle);
+        bGuncelle = (Button) findViewById(R.id.bGuncelle);
+        bSil = (Button) findViewById(R.id.bSil);
+        bGetir = (Button) findViewById(R.id.bGetir);
+        bKisiGetir = (Button) findViewById(R.id.bKisiGetir);
         bEkle.setOnClickListener(this);
         bSil.setOnClickListener(this);
         bGuncelle.setOnClickListener(this);
@@ -47,11 +46,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 try {
                     VeriTabani db = new VeriTabani(MainActivity.this);
                     db.baglantiyiAc();
-                    db.isimYasBilgisiniKaydet(ad, telefon);
+                    db.isimTelBilgisiniKaydet(ad, telefon);
                     db.baglantiyiKapat();
                 } catch (Exception e) {
                     // TODO: handle exception
-
                     Dialog hata = new Dialog(this);
                     hata.setTitle("Ekleme İşlemi");
                     TextView tvHata = new TextView(this);
@@ -67,17 +65,18 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     dialog.setContentView(tvSonuc);
                     dialog.show();
                 }
-
                 break;
+
             case R.id.bGetir:
 
-                Intent i = new Intent("guideapplication.begi.com.guideapplication.TUMKAYITLAR");
-                startActivity(i);
-
+                Intent intent = new Intent(MainActivity.this,TumKayitlar.class);
+               // Intent i = new Intent("guideapplication.begi.com.guideapplication.TUMKAYITLAR");
+                startActivity(intent);
                 break;
+
             case R.id.bGuncelle:
                 String adGuncelle = eIsim.getText().toString();
-                String yasGuncelle = eTelefon.getText().toString();
+                String telGuncelle = eTelefon.getText().toString();
                 String idGuncelle = eGetir.getText().toString();
 
                 long guncellenecekID = Long.parseLong(idGuncelle);
@@ -88,18 +87,16 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-                dbGuncelle.kaydiGuncelle(guncellenecekID, adGuncelle, yasGuncelle);
+                dbGuncelle.kaydiGuncelle(guncellenecekID, adGuncelle, telGuncelle);
                 dbGuncelle.baglantiyiKapat();
-
-
                 break;
 
             case R.id.bSil:
 
                 String silinecekKayit = eGetir.getText().toString();
                 long silinecekID = Long.parseLong(silinecekKayit);
-
                 VeriTabani dbSil = new VeriTabani(MainActivity.this);
+
                 try {
                     dbSil.baglantiyiAc();
                 } catch (SQLException e) {
@@ -107,9 +104,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 }
 
                 dbSil.kaydiSil(silinecekID);
-
                 dbSil.baglantiyiKapat();
-
 
                 break;
 
@@ -126,7 +121,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 }
 
                 String eldeEdilenIsim = db.getName(aranacakID);
-                String eldeEdilenYas = db.getYas(aranacakID);
+                String eldeEdilenYas = db.getTel(aranacakID);
 
                 db.baglantiyiKapat();
 
@@ -134,7 +129,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 eTelefon.setText(eldeEdilenYas);
 
                 break;
-
         }
     }
 }
